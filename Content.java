@@ -70,13 +70,12 @@ public class Content implements Runnable{
 
 class luong1 extends Thread {
     private JButton button;
-
+    private Boolean status;
     luong1(JButton btn) {
         this.button = btn;
     }
 
     public void run() {
-        
         button.setEnabled(false);
         for( int i = 13; i > 0; i--) {
             button.setText("Khả dụng sau: " + i + "s");
@@ -94,7 +93,6 @@ class luong1 extends Thread {
 
 class luong2 extends Thread {
     public void run() {
-        System.out.print("Sender: ");
         SendMail.sendMail("tkhai12386@gmail.com");
     }
 }

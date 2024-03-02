@@ -18,7 +18,7 @@ public class ForgetPassword extends Login {
     public static JPanel forgetPassword() {
         panelForget.setName("panelForget");
         panelForget.setBackground(new Color(204,255,255));
-        panelForget.setBorder(BorderFactory.createEmptyBorder(100, 100, 150, 100));
+        panelForget.setBorder(BorderFactory.createEmptyBorder(100, 70, 150, 70));
         panelForget.setLayout(new BoxLayout(panelForget, BoxLayout.Y_AXIS));
 
         JPanel panelContentForget = new JPanel();
@@ -231,11 +231,14 @@ public class ForgetPassword extends Login {
             } else {
                 panelForget.setCursor(new Cursor(Cursor.WAIT_CURSOR));
                 ((JTextField) AllComponent.getPanel(panelForget, "txtEmail")).setEditable(false);
-                ((JButton) AllComponent.getPanel(panelForget, "btnMail")).setEnabled(false);
                 ((JTextField) AllComponent.getPanel(panelForget, "txtCode")).setEditable(true);
                 ((JButton) AllComponent.getPanel(panelForget, "btnCode")).setEnabled(true);
+                eventButton buttonEvent = new eventButton(button);
+                buttonEvent.start();
                 
-                SendMail.sendMail(mailto);
+                btnSendMail sendMail = new btnSendMail(mailto);
+                sendMail.start();
+
                 panelForget.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
         } else if (name.equals("btnCode")) {
@@ -244,6 +247,8 @@ public class ForgetPassword extends Login {
                 JOptionPane.showMessageDialog(null, ErrorList.errors.get("code"));
                 ErrorList.errors.clear();
             } else {
+                ((JButton) AllComponent.getPanel(panelForget, "btnMail")).setVisible(false);
+                ((JTextField) AllComponent.getPanel(panelForget, "txtEmail")).setEditable(false);
                 ((JTextField) AllComponent.getPanel(panelForget, "txtCode")).setEditable(false);
                 ((JButton) AllComponent.getPanel(panelForget, "btnCode")).setEnabled(false);
                 ((JTextField) AllComponent.getPanel(panelForget, "txtPass")).setVisible(true);
@@ -255,5 +260,41 @@ public class ForgetPassword extends Login {
             resetForm(Login.setPanelLogin());
         }
 
+    }
+}
+
+class btnSendMail extends Thread{
+    private String mailto;
+
+    btnSendMail(String mail) {
+        this.mailto = mail;
+    }
+
+    @Override
+    public void run() {
+        SendMail.sendMail(mailto);
+    }
+
+}
+
+class eventButton extends Thread{
+    private JButton button;
+    eventButton(JButton btn) {
+        this.button = btn;
+    }
+
+    @Override
+    public void run() {
+        for(int i = 60; i> 0; i--) {
+            button.setEnabled(false);
+            button.setText("Send to: " + i + "s");
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                
+            }
+            button.setText("Send to");
+            button.setEnabled(true);
+        }
     }
 }
