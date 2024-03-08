@@ -34,13 +34,13 @@ public class AdminQLKH extends Admin {
         JPanel panelInfomation = new JPanel();
         panelInfomation.setName("panelInfomation");
         panelInfomation.setBackground(panelCenterQLKH.getBackground());
-        panelInfomation.add(addLabel("Thành viên", CsdlAccount.numberUser , "QuanLiThuvien/Icon/user.png"));
-        panelInfomation.add(addLabel("Danh mục", thuvien.tusachs.size() , "QuanLiThuvien/Icon/bookshelf.png"));
+        panelInfomation.add(addLabel("Thành viên", CsdlAccount.numberUser , "./Icon/user.png"));
+        panelInfomation.add(addLabel("Danh mục", thuvien.tusachs.size() , "Icon/bookshelf.png"));
         int numberBook = 0;
         for (tusach string : thuvien.tusachs) {
             numberBook += string.sachs.size();
         }
-        panelInfomation.add(addLabel("Số lượng", numberBook, "QuanLiThuvien/Icon/books.png"));
+        panelInfomation.add(addLabel("Số lượng", numberBook, "Icon/books.png"));
         return panelInfomation;
     }
     
@@ -72,7 +72,7 @@ public class AdminQLKH extends Admin {
         JPanel panelContent = new JPanel();
         panelContent.setBackground(button.getBackground());
         panelContent.setLayout(new BoxLayout(panelContent, 1));
-        panelContent.add(new JLabel(name, JLabel.CENTER){
+        panelContent.add(new JLabel(name, JLabel.CENTER) {
             {
                 setFont(new Font("Courier New", Font.BOLD, 16));
             }

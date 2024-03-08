@@ -1,15 +1,11 @@
 package QuanLiThuvien.brain;
+
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
-
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 /**
  * SendMail
  * Designer by Trọng Khải
@@ -61,12 +57,5 @@ public class SendMail {
         }
 
 
-    }
-
-    public static String content() {
-        String a = "Tôi vô cùng xúc động khi nhận được món quà ý nghĩa mà anh đã dành tặng cho tôi nhân dịp tết. Món quà thực sự là một bất ngờ tuyệt vời và khiến tôi cảm thấy vô cùng hạnh phúc. \r\n\n"
-                    + "Tôi rất trân trọng tấm lòng của anh khi đã dành thời gian và công sức để lựa chọn món quà phù hợp với sở thích của em/tôi. Món quà này không chỉ mang giá trị vật chất mà còn thể hiện sự quan tâm, yêu thương và tình cảm chân thành của anh dành cho tôi. \r\n"            
-                    + "Tôi hứa sẽ luôn trân trọng và gìn giữ món quà này như một kỷ niệm đẹp về tình bạn/tình cảm của chúng ta. Tôi xin gửi lời cảm ơn chân thành nhất đến anh vì món quà đầy ý nghĩa này. \r\n";      
-        return a;
     }
 }

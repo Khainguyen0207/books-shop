@@ -1,15 +1,10 @@
 package QuanLiThuvien.Models;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import QuanLiThuvien.DatabaseConnection;
 
 public class Model {
     
@@ -21,7 +16,7 @@ public class Model {
         this.table = table;
     }
 
-    public void setFillable(ArrayList<String> fillable) {
+    public void setFillable(List<String> fillable) {
         this.fillable = fillable;
     }
 
@@ -33,52 +28,110 @@ public class Model {
         return fillable;
     }
 
-    public List<Map<String,String>> getData() {
+    public List<Map<String, String>> getData() {
+        String query = "SELECT * FROM `"+ getName() +"` WHERE 1 ORDER BY `id` ASC";
+        List<Map<String, String>> list = new ArrayList<>();
         try {
-            String datatype = "SELECT * FROM " + this.getName() ;
-            ResultSet data = database.getData(database.connection, datatype);
-            List<Map<String,String>> items = new ArrayList<>();
-            
+            ResultSet data = database.getData(database.connection, query);
             while (data.next()) {
-                try {
-                    Map<String,String> item = new HashMap<>();
-                    for (String fill : this.fillable) {
-                        item.put(fill, data.getString(fill));
-                    }
-                    items.add(item);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                Map<String, String> getData = new HashMap<>();
+                for (String string : getFillable()) {
+                    getData.put(string, data.getString(string));
                 }
+                list.add(getData);
             }
-            return items;
-        } catch (Exception e) {}
-        return null; 
+        } catch (SQLException e) {
+            System.out.println("Error Connect SQL: " + e.getMessage());
+        }
+        return list;
     }
 
-    protected Boolean checkDataExis(String key, String value) {
+    public List<Map<String, String>> getDataLinkColumn(String query) { // lấy data từ cột liên kết
+        List<Map<String, String>> list = new ArrayList<>();
         try {
-            //SELECT `key` FROM `users` WHERE `key`="value"
-            String datatype = "SELECT `" + key + "` FROM `" + this.getName() +"` WHERE `" + key +"`='" + value +"'";
-            ResultSet data = database.getData(database.connection, datatype);
-            System.out.println(datatype);
+            ResultSet data = database.getData(database.connection, query);
             while (data.next()) {
-                if (data.getString(key).equals(value)) {
-                    return true;
+                Map<String, String> getData = new HashMap<>();
+                for (String string : getFillable()) {
+
+                    getData.put(string, data.getString(string));
                 }
+                list.add(getData);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error Connect SQL: " + e.getMessage());
+        }
+        return list;
+    }
+
+    //SELECT `products`.* FROM products WHERE products.id = %d;".formatted(ID)
+    public List<Map<String, String>> getDataByID(int ID) { // lấy data từ cột liên kết
+        String query = "SELECT `"+ getName()+"`.* FROM "+ getName()+" WHERE "+ getName()+ ".id = " + ID +";";
+        List<Map<String, String>> list = new ArrayList<>();
+        try {
+            ResultSet data = database.getData(database.connection, query);
+            while (data.next()) {
+                Map<String, String> getData = new HashMap<>();
+                for (String string : getFillable()) {
+                    getData.put(string, data.getString(string));
+                }
+                list.add(getData);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error Connect SQL: " + e.getMessage());
+        }
+        return list;
+    }
+    public int getCountData(int ID) {
+        String query = "SELECT COUNT(products.id) AS 'Count' FROM products WHERE `products`.`category_id` = " + ID + ";";
+        try {
+            ResultSet resultSet = database.getData(database.connection, query);
+            while (resultSet.next()) {
+                int count = resultSet.getInt("Count");
+                return count;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+    public String getDataByUser(String user, String getdata) {
+        try {
+            //SELECT `id`, `username`, `password`, `email`, `role`, `infomation` FROM `users` WHERE `username`='anhdz'
+            String datatype = "SELECT * FROM `" +
+                    getName() +"` WHERE `username`='" + user +"'" ;
+            ResultSet data = database.getData(database.connection, datatype);
+            while (data.next()) {
+                getdata = data.getString(getdata);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false; 
+            System.out.println("infomation: " + e.getMessage());
         }
-        return false; 
+        return getdata;
     }
 
-    public void create(Map<String,String> data) {
+    protected Boolean checkDataExist(String key, String value) {  //Kiểm tra dữ liệu có trong bảng hay không
+        try {
+            //SELECT `username`,`password` FROM `users` WHERE `username`="anhdz", `password`="anhdz"
+            String datatype = "SELECT `" + getName() + "`.* " + "FROM `" + getName() + "` WHERE `" + key + "`='" + value +"';";
+            ResultSet resultSet = database.getData(database.connection, datatype);
+            if (resultSet.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("Khong co du lieu vua tim kiếm" + e.getMessage());
+        }
+        return false;
+    }
+
+    public Boolean create(Map<String,String> data) {
+        /*INSERT INTO `products`(`id`, `name`, `quantity`, `price`, `name_category`, `type_product`, `image`, `description`)
+                 VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]')*/
         try {
             String query = "";
             String keys = "";
             String values = "";
-
+            // Thiết lập câu lệnh truy vấn để tạo 1 dữ liệu
             for (String key : data.keySet()) {
                 //System.out.println(key);
                 keys += "`"+ key +"`,";
@@ -91,49 +144,56 @@ public class Model {
             }
             values = values.substring(0, values.length() - 1);
 
-            query = "INSERT INTO `users`(" + keys + ")" + " VALUES " + "("+ values+ ")";
+            query = "INSERT INTO `"+ getName() + "`(" + keys + ")" + " VALUES " + "("+ values+ ")";
+            System.out.println(query);// Câu lệnh sẽ có dạng
+            //Kết nối và truy vấn dữ liệu theo câu lệnh truy vấn query
             Statement statement = database.connection.createStatement();
-            System.out.println(query);
-            statement.executeUpdate(query); 
-        } catch (Exception e) {
+            statement.executeUpdate(query);
+        } catch (Exception e) { // Trả về nếu bị trùng dữ liệu
             System.out.println("Đã tồn tại dữ liệu");
+            return false;
         }
+        return true;
     }
 
     protected void updateInfomation(String key, String value, String email) {
         //UPDATE `users` SET `username`='as' WHERE `username`='anhdz';
         try {
             String query = "UPDATE `users` SET `" + key + "`='" + value + "' WHERE `email`='" + email + "'" ;
+            //Gọi sql và thực hiện truy vấn cập nhật email
             Statement statement = database.connection.createStatement();
-            System.out.println(query);
             statement.executeUpdate(query);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }        
     }
 
-    public void update(Map<String,String> data) {
-        //UPDATE `users` SET `id`='[value-1]',`username`='[value-2]',`password`='[value-3]',`email`='[value-4]',`infomation`='[value-5]' 
-        String query = "UPDATE `users` SET ";
-        String username = " WHERE ";
-        try {   
+    /* Liên kết bảng
+     * SELECT `products`.*, COUNT(products.category_id) AS 'quantity_book'
+     * FROM products
+     * JOIN `categorys`
+     * ON products.category_id = categorys.id
+     * GROUP BY categorys.id;
+    * */
+
+    public void updateByID(Map<String,String> data, int ID) {
+        //UPDATE `users` SET `id`='[value-1]',`username`='[value-2]',`password`='[value-3]',`email`='[value-4]',`infomation`='[value-5]' WHERE `id`='[value-1]'
+        String query = "UPDATE `"+ getName() + "` SET ";
+        String username = " WHERE " + "`id`=" + ID +";";
+        try {
             for (Entry<String, String> data1 : data.entrySet()) {
-                if (data1.getKey().equals("password")) {
-                    query += "`" + data1.getKey() +"`='" + data1.getValue() +"',";
-                } else {
-                    username += "`" + data1.getKey() +"`='" + data1.getValue() +"',";
-                }
+                query += "`" + data1.getKey() +"`='" + data1.getValue() +"',";
             }
             username = username.substring(0, username.length()-1);
             query = query.substring(0, query.length()-1);
             query += username;
+            System.out.println(query);
 
             Statement statement = database.connection.createStatement();
-            System.out.println(query);
             statement.executeUpdate(query);
         } catch (Exception e) {
             System.out.println(query);
-            if (query.equals("UPDATE `users` SET")) {
+            if (query.equals("UPDATE `"+ getName() + "` SET ")) {
                 System.out.println("Pass thay đổi trống");
             } else {
                 System.out.println("Đã tồn tại dữ liệu");
@@ -141,4 +201,17 @@ public class Model {
         }
     }
 
+    public Boolean deleteDataByID(int ID) {
+        //"DELETE FROM products WHERE `products`.`id` = 37"
+        String query = "DELETE FROM " + getName() + " WHERE `" + getName() + "`.`id` = " + ID;
+        try {
+            System.out.println("Truy vấn Delete: " + query);
+            Statement statement = database.connection.createStatement();
+            statement.executeUpdate(query);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
 }

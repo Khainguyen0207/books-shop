@@ -34,10 +34,15 @@ public class ErrorList extends Thread {
         return false;
     }
 
-    public static Boolean checkErrorRegister(String user, String pass, String email) {
+    public static Boolean checkErrorRegister(String user, String pass, String email, String name) {
         //Error username
         if (user.length() < 3) {
             errors.put("user", "Tài khoản trên 3 kí tự!");
+            return true;
+        }
+
+        if (name.length() < 3) {
+            errors.put("user", "Vui lòng nhập tên hợp lệ");
             return true;
         }
 
@@ -56,8 +61,8 @@ public class ErrorList extends Thread {
             errors.put("pass", "Định dạng mail không đúng");
             return true;
         }
-        //
-        if (UserModel.checkData("username", user) || UserModel.checkData("email", email)) {
+
+        if (UserModel.checkDataAccount("username", user) || UserModel.checkDataAccount("email", email)) {
             errors.put("register", "Tài khoản hoặc email đã tồn tại");
             return true;
         }
@@ -70,18 +75,12 @@ public class ErrorList extends Thread {
             return true;
         }
 
-        if (path.equals("Chưa có ảnh")) {
+        if (path.equals("Chưa có ảnh") || path.isEmpty()) {
             errors.put("addBook", "Vui lòng chọn ảnh");
             return true;
         }
 
         String data[] = {namebook, money, content , content};
-        for (String string : data) {
-            if (string.contains("/") || string.contains("-") || string.contains("_")) {
-                errors.put("addBook", "Thông tin không chứa kí tự");
-                return true;
-            }
-        }
         try {
             Integer.valueOf(money);
             Integer.valueOf(countBook);
@@ -105,11 +104,24 @@ public class ErrorList extends Thread {
             return true;
         }
 
-        if (!UserModel.checkData("email", mailto )) {
+        if (!UserModel.checkDataAccount("email", mailto)) {
             errors.put("mail", "Mail chưa được đăng kí");
             return true;
         }
 
+        return false;
+    }
+
+    public static Boolean checkPasswordOld(String password) {
+        if (password.isEmpty()) {
+            errors.put("empty", "Vui lòng nhập mật khẩu");
+            return true;
+        }
+
+        if (password.length() < 5) {
+            errors.put("empty", "Mật khẩu quá ngắn phải nhiều hơn 4 kí tự");
+            return true;
+        }
         return false;
     }
 

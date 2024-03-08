@@ -17,10 +17,11 @@ import QuanLiThuvien.brain.SendMail;
  */
 public class ForgetPassword extends Login {
     public static JPanel forgetPassword() {
+        panelForget = new JPanel();
         panelForget.setName("panelForget");
         panelForget.setBackground(new Color(204,255,255));
         panelForget.setBorder(BorderFactory.createEmptyBorder(100, 70, 150, 70));
-        panelForget.setLayout(new BoxLayout(panelForget, BoxLayout.Y_AXIS));
+        panelForget.setLayout(new BorderLayout());
 
         JPanel panelContentForget = new JPanel();
         panelContentForget.setBackground(new Color(0, 239, 253));
@@ -58,7 +59,7 @@ public class ForgetPassword extends Login {
         panelCenterForget.add(new JButton("Send"){
             {
                 setBackground(Color.YELLOW);
-                setCursor(new Cursor(12));
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
                 setHorizontalAlignment(CENTER);
                 setFont(new Font("Maiandra GD", Font.BOLD, 20));
                 setName("btnMail");
@@ -93,7 +94,7 @@ public class ForgetPassword extends Login {
         panelCenterForget.add(new JButton("Send"){
             {
                 setBackground(Color.YELLOW);
-                setCursor(new Cursor(12));
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
                 setEnabled(false);
                 setHorizontalAlignment(CENTER);
                 setFont(new Font("Maiandra GD", Font.BOLD, 15));
@@ -130,7 +131,7 @@ public class ForgetPassword extends Login {
         panelCenterForget.add(new JButton("Change"){
             {
                 setBackground(Color.GREEN);
-                setCursor(new Cursor(12));
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
                 setVisible(false);
                 setHorizontalAlignment(CENTER);
                 setFont(new Font("Maiandra GD", Font.BOLD, 15));
@@ -150,25 +151,27 @@ public class ForgetPassword extends Login {
         });
 
         JPanel panelFooter = new JPanel();
+        panelFooter.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 0));
         panelFooter.setName("panelFooter");
         panelFooter.setBackground(panelContentForget.getBackground());
-        panelFooter.add(new JLabel("<html><p style='margin-bottom:10px;text-decoration: underline;font-weight: 700;'> Đăng nhập! </p></html>"){
+        panelFooter.add(new JLabel("<html><p style='margin-bottom:10px;'>Đăng nhập</p></html>"){
             {
-                setName("linklogin");
+                setName("login");
                 setHorizontalAlignment(CENTER);
                 setFont(new Font("", Font.BOLD, 15));
-                setCursor(new Cursor(12));
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
                 addMouseListener(new MouseAdapter() {
 
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        resetForm(Login.setPanelLogin());
+                        setForeground(Color.BLACK);
+                        hideCenter(panelLogin);
                     }
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
                         setForeground(Color.RED);
-                    };
+                    }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
@@ -178,23 +181,24 @@ public class ForgetPassword extends Login {
                 });
             }
         });
-        panelFooter.add(new JLabel("<html><p style='margin-bottom:10px;text-decoration: underline;font-weight: 700;'> Tạo tài khoản! </p></html>"){
+        panelFooter.add(new JLabel("<html><p style='margin-bottom:10px;'>Tạo tài khoản</p></html>"){
             {
                 setName("linkregister");
                 setHorizontalAlignment(CENTER);
                 setFont(new Font("", Font.BOLD, 15));
-                setCursor(new Cursor(12));
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
                 addMouseListener(new MouseAdapter() {
 
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        resetForm(Register.setPanelRegister());
+                        setForeground(Color.BLACK);
+                        hideCenter(panelRegister);
                     }
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
                         setForeground(Color.RED);
-                    };
+                    }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
@@ -212,14 +216,6 @@ public class ForgetPassword extends Login {
         return panelForget;
     }
 
-    public static void resetForm(JPanel panel) {
-        panelForget.removeAll();
-        frame.remove(panelForget);
-        frame.add(panel, BorderLayout.CENTER);
-        frame.validate();
-        frame.repaint();
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton button = (JButton) e.getSource();
@@ -233,13 +229,11 @@ public class ForgetPassword extends Login {
                 panelForget.setCursor(new Cursor(Cursor.WAIT_CURSOR));
                 ((JTextField) AllComponent.getPanel(panelForget, "txtEmail")).setEditable(false);
                 ((JTextField) AllComponent.getPanel(panelForget, "txtCode")).setEditable(true);
-                ((JButton) AllComponent.getPanel(panelForget, "btnCode")).setEnabled(true);
+                AllComponent.getPanel(panelForget, "btnCode").setEnabled(true);
                 eventButton buttonEvent = new eventButton(button);
                 buttonEvent.start();
-                
                 btnSendMail sendMail = new btnSendMail(mailto);
                 sendMail.start();
-
                 panelForget.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
         } else if (name.equals("btnCode")) {
@@ -248,27 +242,25 @@ public class ForgetPassword extends Login {
                 JOptionPane.showMessageDialog(null, ErrorList.errors.get("code"));
                 ErrorList.errors.clear();
             } else {
-                ((JButton) AllComponent.getPanel(panelForget, "btnMail")).setVisible(false);
+                AllComponent.getPanel(panelForget, "btnMail").setVisible(false);
                 ((JTextField) AllComponent.getPanel(panelForget, "txtEmail")).setEditable(false);
                 ((JTextField) AllComponent.getPanel(panelForget, "txtCode")).setEditable(false);
-                ((JButton) AllComponent.getPanel(panelForget, "btnCode")).setEnabled(false);
-                ((JTextField) AllComponent.getPanel(panelForget, "txtPass")).setVisible(true);
-                ((JButton) AllComponent.getPanel(panelForget, "btnChangePass")).setVisible(true);
-                ((JLabel) AllComponent.getPanel(panelForget, "labelPass")).setVisible(true);
+                AllComponent.getPanel(panelForget, "btnCode").setEnabled(false);
+                AllComponent.getPanel(panelForget, "txtPass").setVisible(true);
+                AllComponent.getPanel(panelForget, "btnChangePass").setVisible(true);
+                AllComponent.getPanel(panelForget, "labelPass").setVisible(true);
             }
         } else {
             String password = ((JTextField) AllComponent.getPanel(panelForget, "txtPass")).getText();
-            if (password.length() < 3) {
-                if(password.length() < 1) {
-                    JOptionPane.showMessageDialog(null, "Vui lòng nhập mật khẩu cần đổi");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Mật khẩu quá ngắn");
-                }
+            if (!ErrorList.checkPasswordOld(password)) {
+                JOptionPane.showMessageDialog(null, ErrorList.errors.values().toArray());
+                ErrorList.errors.clear();
             } else {
                 chanegPassword change = new chanegPassword(password, mailto);
                 change.start();
                 JOptionPane.showMessageDialog(null, "Đổi thành công");
-                resetForm(Login.setPanelLogin());
+                panelForget = forgetPassword();
+                hideCenter(panelLogin);
             }
             
         }
@@ -286,13 +278,13 @@ class chanegPassword extends Thread{
 
     @Override
     public void run() {
-        UserModel.updateInfo("password", password, email);
+        UserModel.updateInfo(password, email);
     }
 }
 
 
 class btnSendMail extends Thread{
-    private String mailto;
+    private final String mailto;
 
     btnSendMail(String mail) {
         this.mailto = mail;
@@ -306,7 +298,7 @@ class btnSendMail extends Thread{
 }
 
 class eventButton extends Thread{
-    private JButton button;
+    private final JButton button;
     eventButton(JButton btn) {
         this.button = btn;
     }
@@ -319,7 +311,7 @@ class eventButton extends Thread{
             try {
                 Thread.sleep(1000);
             } catch (Exception e) {
-                
+                System.out.println(e.getMessage());
             }
             button.setText("Send to");
             button.setEnabled(true);

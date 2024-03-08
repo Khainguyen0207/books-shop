@@ -4,59 +4,77 @@ package QuanLiThuvien.Forms.Login;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.URI;
+import java.util.Map;
 
 import javax.swing.*;
 
 import QuanLiThuvien.Forms.Admin.Admin;
-import QuanLiThuvien.Icon.SetIcon;
-import QuanLiThuvien.UserAndPass.CsdlAccount;
+import QuanLiThuvien.Forms.User.Form_User;
 import QuanLiThuvien.brain.AllComponent;
-
+import QuanLiThuvien.brain.SetIcon;
 /**
  * Form_Login
  */
 public class Form_Login implements ActionListener {
+    static final Font font = new Font("JetBrains Mono", Font.BOLD, 15);
     public static JFrame frame = new JFrame("LOGIN");
-    static JPanel panelLogin = new JPanel();
-    static JPanel panelRegister = new JPanel();
-    static JPanel panelForget = new JPanel();
+    public static JPanel panelLogin;
+    static JPanel panelRegister;
+    static JPanel panelForget;
     public static void form_login() {
-        SetIcon.setIcon(frame, "QuanLiThuvien/Icon/formLogin.png", 40, 40);
+        long st = System.currentTimeMillis();
+        SetIcon.setIcon(frame, "Icon/formLogin.png", 40, 40);
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         } catch (Exception e) {
             System.out.println("Error LookAndFeel");
         }
-        frame.addWindowListener(new WindowAdapter() {
-            
-        });
-        CsdlAccount.updateAccount();
         frame.setSize(654*2, 678);
-        Login.setPanelLogin();
-        frame.add(panelLogin, BorderLayout.CENTER);
-        frame.add(new JLabel(){
-            {
-                setName("imageLogin");
-                setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("QuanLiThuvien/Icon/background-login.png")));
-            }
-        }, BorderLayout.WEST);
-        frame.add(new JLabel(){
+
+        panelLogin = Login.setPanelLogin();
+        panelForget = ForgetPassword.forgetPassword();
+        panelRegister = Register.setPanelRegister();
+        hideCenter(panelLogin);
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        long kt = System.currentTimeMillis();
+        System.out.printf("Time set Login: %d", (kt - st));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        //
+    }
+
+    private static JLabel imageLogin() {
+        JLabel label = new JLabel();
+        label.setName("imageLogin");
+        label.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("C:\\Hoctap\\Workspace\\Languages\\Java\\books-shop\\QuanLiThuvien\\Icon\\background-login.png")));
+        return label;
+    }
+
+    public static JPanel nameDesign() {
+        JPanel panel = new JPanel();
+        panel.setBackground(new Color(204,255,255));
+        panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        panel.add(new JLabel(){
             {
                 setName("profileDesigner");
                 setBackground(Color.BLACK);
                 setText("Designer: khainguyen0207");
-                setHorizontalAlignment(RIGHT);
-                setFont(new Font("", Font.BOLD, 15));
-                setCursor(new Cursor(12));
+                setFont(font);
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
                 addMouseListener(new MouseAdapter() {
 
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         try {
-                            String linkProfile = "https://www.facebook.com/ntkhai2005";
+                            String linkProfile = "https://www.facebook.com/khainguyen0207/";
                             Desktop.getDesktop().browse(URI.create(linkProfile));
                         } catch (Exception l) {
-                            System.out.println(l);
+                            System.out.println(l.getMessage());
                         }
                     }
 
@@ -69,37 +87,40 @@ public class Form_Login implements ActionListener {
                     public void mouseExited(MouseEvent e) {
                         setForeground(Color.BLACK);
                     }
-                    
+
                 });
             }
-        }, BorderLayout.SOUTH);
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-    }
-    
-    
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        //
+        });
+        return panel;
     }
 
-    public static void function(String rule) {
-        if (rule.equals("admin")) {
+    public static void function(String role, int ID) {
+        if (role.equals("admin")) {
+            frame.setVisible(false);
             Admin.admin();
+            frame.dispose();
+        } else if (role.equals("user")) {
             frame.setVisible(false);
-        } else if (rule.equals("user")) {
-            System.out.println("updating...");
-            frame.setVisible(false);
+            Form_User.ID = ID;
+            new Form_User();
+            frame.dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Tài khoản của bạn đã bị khóa", "Thông báo", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     public static void resetText() {
-        ((JButton) AllComponent.getPanel(panelLogin, "btnLogin")).setEnabled(true);
+        AllComponent.getPanel(panelLogin, "btnLogin").setEnabled(true);
         ((JTextField) AllComponent.getPanel(panelLogin, "txtUserLogin")).setText("");
         ((JTextField) AllComponent.getPanel(panelLogin, "txtPassLogin")).setText("");
-    } 
+
+    }
+
+    protected static void hideCenter(JPanel panel) {
+        frame.getContentPane().removeAll();
+        frame.add(panel, BorderLayout.CENTER);
+        frame.add(imageLogin(), BorderLayout.WEST);
+        frame.validate();
+        frame.repaint();
+    }
 }

@@ -10,7 +10,7 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-import QuanLiThuvien.Icon.SetIcon;
+import QuanLiThuvien.brain.SetIcon;
 
 public class AdminDSKH extends Admin {
     static Boolean time = true;
@@ -53,7 +53,7 @@ public class AdminDSKH extends Admin {
         tableDSKH.setFont(new Font("", Font.BOLD, 15));
         tableDSKH.setSelectionBackground(Color.WHITE);
         tableDSKH.setSelectionForeground(Color.BLACK);
-        tableDSKH.setCursor(new Cursor(12));
+        tableDSKH.setCursor(new Cursor(Cursor.HAND_CURSOR));
         tableDSKH.setAutoCreateRowSorter(true);
         tableDSKH.getTableHeader().setReorderingAllowed(false);
         tableDSKH.getTableHeader().setResizingAllowed(false);
@@ -68,8 +68,8 @@ public class AdminDSKH extends Admin {
         JPanel panelButton = new JPanel();
         panelButton.setLayout(new BoxLayout(panelButton, BoxLayout.Y_AXIS));
         try {
-            addButton(panelButton, "Bookcase", "QuanLiThuvien/Icon/addBookCase.png");
-            addButton(panelButton, "Book", "QuanLiThuvien/Icon/AddBook.png");
+            addButton(panelButton, "Bookcase", "Icon/addBookCase.png");
+            addButton(panelButton, "Book", "Icon/AddBook.png");
         } catch (Exception e) {
             System.out.println("No find URL IconImage");
         }
@@ -82,13 +82,13 @@ public class AdminDSKH extends Admin {
 
     private static void addButton(JPanel panel, String name, String url) {
         JButton button = new JButton();
-        SetIcon.setIconButton(button, url);
+        button.setIcon(new ImageIcon(SetIcon.imageProcess(url, 25, 25)));
         button.setText(name);
         button.setName(name);
         button.setFocusPainted(false); 
         button.setBackground(new Color(255,204,102));
         button.setMaximumSize(new Dimension(500, 40));
-        button.setCursor(new Cursor(12));
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         button.addMouseListener(new MouseAdapter() {
            
             @Override

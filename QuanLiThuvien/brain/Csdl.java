@@ -108,7 +108,7 @@ public class Csdl extends thuvien {
     public static void updateTime(String nameUpdate) {
         try {
             FileWriter fileWriter = new FileWriter(fileLogs , true);
-            fileWriter.append(TimeUpdateData.timeUpdateData() +"-->"+ nameUpdate +"\n");
+            fileWriter.append(TimeUpdateData.timeUpdateData(2) +"-->"+ nameUpdate +"\n");
             fileWriter.close();
         } catch (Exception e) {
             System.out.println("Error: " + e);
@@ -140,7 +140,7 @@ public class Csdl extends thuvien {
 
     //hàm xóa thông tin
     static int index = -1;
-    public static void setNumberdelete(Object data, ArrayList<?> ArrayList) {
+    public static void setNumberDelete(Object data, ArrayList<?> ArrayList) {
         int indexData = ArrayList.indexOf(data);
         index = indexData;
     }

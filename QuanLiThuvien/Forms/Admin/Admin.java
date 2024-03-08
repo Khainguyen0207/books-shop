@@ -6,8 +6,9 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import QuanLiThuvien.Forms.Login.Form_Login;
-import QuanLiThuvien.Icon.SetIcon;
+import QuanLiThuvien.Forms.User.Form_User;
 import QuanLiThuvien.brain.Csdl;
+import QuanLiThuvien.brain.SetIcon;
 
 
 public class Admin implements ActionListener  {
@@ -26,7 +27,7 @@ public class Admin implements ActionListener  {
         Csdl.updateData();
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -34,21 +35,17 @@ public class Admin implements ActionListener  {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                Csdl.writeFile();
             }
 
             @Override
             public void windowClosed(WindowEvent e) {
-                Csdl.writeFile();
-                resetForm();
-                Form_Login.resetText();
-                Form_Login.frame.setVisible(true);
+                frame.dispose();
             }
 
         });
 
         frame.setSize(800, 500);
-        SetIcon.setIcon(frame, "QuanLiThuvien/Icon/admin.png", 40,40);
+        SetIcon.setIcon(frame, "Icon/admin.png", 40,40);
         frame.setLocationRelativeTo(null);
         //Panel Menu Setting
         JPanel panelMenu = new JPanel();
@@ -60,10 +57,11 @@ public class Admin implements ActionListener  {
         //panelCenterAdminShopBook.setBackground(Color.lightGray);
         //Add Button
         try {
-            addButton(panelMenu, "QLKH", Color.lightGray, "QuanLiThuvien/Icon/QLKH.png");
-            addButton(panelMenu, "KHÁCH HÀNG", Color.BLUE, "QuanLiThuvien/Icon/dskh.png");
-            addButton(panelMenu, "SHOPBOOK", new Color(255,153,0), "QuanLiThuvien/Icon/book.png");
-            addButton(panelMenu, "LOGOUT", Color.YELLOW, "QuanLiThuvien/Icon/exit.png");
+            addButton(panelMenu, "QLKH", Color.lightGray, "Icon/QLKH.png");
+            addButton(panelMenu, "KHÁCH HÀNG", Color.BLUE, "Icon/dskh.png");
+            addButton(panelMenu, "SHOPBOOK", new Color(255,153,0), "Icon/book.png");
+            addButton(panelMenu, "CỬA HÀNG", new Color(255,153,0), "Icon/Shoppingcart.png");
+            addButton(panelMenu, "LOGOUT", Color.YELLOW, "Icon/exit.png");
         } catch (Exception e) {}
         //panelAdminQLKH
         AdminQLKH.panelAdminQLKH();
@@ -103,7 +101,7 @@ public class Admin implements ActionListener  {
         JButton button = new JButton();
         button.setText(name);
         button.setName(name);
-        SetIcon.setIconButton(button, imageIcon);
+        button.setIcon(new ImageIcon(SetIcon.imageProcess(imageIcon, 25, 25)));
         button.setBackground(color);
         button.setMaximumSize(new Dimension(150, 50));
         button.setFocusPainted(false);
@@ -113,7 +111,7 @@ public class Admin implements ActionListener  {
             
         }
         button.addActionListener(new Admin());
-        button.setCursor(new Cursor(12));
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         panelMenu.add(button);
     }
 
@@ -136,12 +134,18 @@ public class Admin implements ActionListener  {
             setColorMenuClicked(name);
             color = new Color(255,153,0);
             setPanelHideCenter(panelCenterAdminShopBook);
-
+        } else if (i.equals("CỬA HÀNG")) {
+            frame.setVisible(false);
+            Form_User formUser = new Form_User();
+            frame.dispose();
         } else if (i.equals("LOGOUT")) {      
             int result = JOptionPane.showConfirmDialog(null, "Bạn muốn thoát?", "Thông báo", 0 , 1);
             if (result == JOptionPane.YES_OPTION) {
+                frame.setVisible(false);
+                Form_Login.resetText();
+                Form_Login.form_login();
                 System.out.println("The application is exiting...");
-               frame.dispose();
+                frame.dispose();
             } else {
                 System.out.println("You just refused to exit the application!");
             }
