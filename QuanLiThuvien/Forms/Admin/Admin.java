@@ -12,6 +12,7 @@ import QuanLiThuvien.brain.Csdl;
 
 public class Admin implements ActionListener  {
     static JButton namelate = new JButton();
+    
     static Color color = Color.GREEN;
     // JLabel lb = new JLabel("Login");
     static JFrame frame = new JFrame("QUẢN LÍ CỬA HÀNG SÁCH");
@@ -47,7 +48,7 @@ public class Admin implements ActionListener  {
         });
 
         frame.setSize(800, 500);
-        SetIcon.setIcon(frame);
+        SetIcon.setIcon(frame, "QuanLiThuvien/Icon/admin.png", 40,40);
         frame.setLocationRelativeTo(null);
         //Panel Menu Setting
         JPanel panelMenu = new JPanel();
@@ -163,6 +164,7 @@ public class Admin implements ActionListener  {
     }
 
     public static void resetForm() {
+        
         namelate = new JButton();
         color = Color.GREEN;
         setPanelHideCenter(panelCenterQLKH);

@@ -8,6 +8,7 @@ import java.net.URI;
 import javax.swing.*;
 
 import QuanLiThuvien.Forms.Admin.Admin;
+import QuanLiThuvien.Icon.SetIcon;
 import QuanLiThuvien.UserAndPass.CsdlAccount;
 import QuanLiThuvien.brain.AllComponent;
 
@@ -20,7 +21,7 @@ public class Form_Login implements ActionListener {
     static JPanel panelRegister = new JPanel();
     static JPanel panelForget = new JPanel();
     public static void form_login() {
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("QuanLiThuvien/Icon/iconLogin.png"));
+        SetIcon.setIcon(frame, "QuanLiThuvien/Icon/formLogin.png", 40, 40);
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         } catch (Exception e) {
@@ -97,6 +98,7 @@ public class Form_Login implements ActionListener {
     }
 
     public static void resetText() {
+        ((JButton) AllComponent.getPanel(panelLogin, "btnLogin")).setEnabled(true);
         ((JTextField) AllComponent.getPanel(panelLogin, "txtUserLogin")).setText("");
         ((JTextField) AllComponent.getPanel(panelLogin, "txtPassLogin")).setText("");
     } 

@@ -153,16 +153,17 @@ public class Login extends Form_Login {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        ((JButton) AllComponent.getPanel(panelLogin, "btnLogin")).setEnabled(false);
         String username = ((JTextField) AllComponent.getPanel(panelLogin, "txtUserLogin")).getText();
         String password = ((JTextField) AllComponent.getPanel(panelLogin, "txtPassLogin")).getText();
         if (ErrorList.checkErrorLogin(username, password)) {
             JOptionPane.showMessageDialog(null, ErrorList.errors.values().toArray(), "Thông báo", 0);
+            ((JTextField) AllComponent.getPanel(panelLogin, "txtPassLogin")).getText();
+            ((JButton) AllComponent.getPanel(panelLogin, "btnLogin")).setEnabled(true);
             ErrorList.errors.clear();
         }
     }
-
     
-
     public static void resetForm(JPanel panel) {
         panelLogin.removeAll();
         frame.remove(panelLogin);  

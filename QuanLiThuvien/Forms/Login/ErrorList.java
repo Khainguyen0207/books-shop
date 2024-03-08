@@ -2,13 +2,14 @@ package QuanLiThuvien.Forms.Login;
 
 import java.util.HashMap;
 
+import QuanLiThuvien.Models.UserModel;
 import QuanLiThuvien.UserAndPass.CsdlAccount;
 import QuanLiThuvien.brain.SendMail;
 
 
 
 
-public class ErrorList {
+public class ErrorList extends Thread {
     public static HashMap<String, String> errors = new HashMap<>();
 
     public static Boolean checkErrorLogin(String user, String pass) {
@@ -56,8 +57,8 @@ public class ErrorList {
             return true;
         }
         //
-        if (CsdlAccount.checkExisUsername(user)) {
-            errors.put("register", "Tài khoản đã tồn tại");
+        if (UserModel.checkData("username", user) || UserModel.checkData("email", email)) {
+            errors.put("register", "Tài khoản hoặc email đã tồn tại");
             return true;
         }
         return false;
@@ -101,6 +102,11 @@ public class ErrorList {
 
         if (!mailto.contains("@") || !mailto.contains(".")) {
             errors.put("mail", "Định dạng mail không đúng");
+            return true;
+        }
+
+        if (!UserModel.checkData("email", mailto )) {
+            errors.put("mail", "Mail chưa được đăng kí");
             return true;
         }
 

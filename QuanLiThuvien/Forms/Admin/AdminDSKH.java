@@ -21,7 +21,7 @@ public class AdminDSKH extends Admin {
         return panelCenterAdminDSKH;
     }
 
-
+    
     private static JPanel panelCenterDSKH() {
         JPanel panelHide = new JPanel();
         panelHide.setBorder(null);

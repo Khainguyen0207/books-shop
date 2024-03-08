@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 
+import QuanLiThuvien.Models.UserModel;
 import QuanLiThuvien.brain.AllComponent;
 import QuanLiThuvien.brain.SendMail;
 
@@ -151,7 +152,7 @@ public class ForgetPassword extends Login {
         JPanel panelFooter = new JPanel();
         panelFooter.setName("panelFooter");
         panelFooter.setBackground(panelContentForget.getBackground());
-        panelFooter.add(new JLabel("<html> <u> <i>Đăng nhập</i></u></html>"){
+        panelFooter.add(new JLabel("<html><p style='margin-bottom:10px;text-decoration: underline;font-weight: 700;'> Đăng nhập! </p></html>"){
             {
                 setName("linklogin");
                 setHorizontalAlignment(CENTER);
@@ -177,7 +178,7 @@ public class ForgetPassword extends Login {
                 });
             }
         });
-        panelFooter.add(new JLabel("<html> <u> <i>Tạo tài khoản mới</i></u></html>"){
+        panelFooter.add(new JLabel("<html><p style='margin-bottom:10px;text-decoration: underline;font-weight: 700;'> Tạo tài khoản! </p></html>"){
             {
                 setName("linkregister");
                 setHorizontalAlignment(CENTER);
@@ -223,8 +224,8 @@ public class ForgetPassword extends Login {
     public void actionPerformed(ActionEvent e) {
         JButton button = (JButton) e.getSource();
         String name = button.getName();
+        String mailto = ((JTextField) AllComponent.getPanel(panelForget, "txtEmail")).getText();
         if (name.equals("btnMail")) {
-            String mailto = ((JTextField) AllComponent.getPanel(panelForget, "txtEmail")).getText();
             if (ErrorList.checkMailForget(mailto)) {
                 JOptionPane.showMessageDialog(null, ErrorList.errors.get("mail"));
                 ErrorList.errors.clear();
@@ -256,12 +257,39 @@ public class ForgetPassword extends Login {
                 ((JLabel) AllComponent.getPanel(panelForget, "labelPass")).setVisible(true);
             }
         } else {
-            System.out.println("Đổi pass thành công");
-            resetForm(Login.setPanelLogin());
+            String password = ((JTextField) AllComponent.getPanel(panelForget, "txtPass")).getText();
+            if (password.length() < 3) {
+                if(password.length() < 1) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng nhập mật khẩu cần đổi");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Mật khẩu quá ngắn");
+                }
+            } else {
+                chanegPassword change = new chanegPassword(password, mailto);
+                change.start();
+                JOptionPane.showMessageDialog(null, "Đổi thành công");
+                resetForm(Login.setPanelLogin());
+            }
+            
         }
 
     }
 }
+
+class chanegPassword extends Thread{
+    String password;
+    String email;
+    chanegPassword(String pass, String email) {
+        this.password = pass;
+        this.email = email;
+    }
+
+    @Override
+    public void run() {
+        UserModel.updateInfo("password", password, email);
+    }
+}
+
 
 class btnSendMail extends Thread{
     private String mailto;
@@ -298,3 +326,4 @@ class eventButton extends Thread{
         }
     }
 }
+

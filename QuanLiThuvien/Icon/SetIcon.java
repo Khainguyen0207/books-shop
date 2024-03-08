@@ -6,13 +6,13 @@ import java.awt.Toolkit;
 import javax.swing.*;
 
 public class SetIcon extends JFrame {
-    public static void setIcon(JFrame jFrame) {
+    public static void setIcon(JFrame jFrame, String fileIcon, int weight, int height) {
         
         try {
             //setIcon
-            String ImageIcon = "admin.png";
-            ImageIcon icon = new ImageIcon(SetIcon.class.getResource(ImageIcon));
-            jFrame.setIconImage(icon.getImage());
+            Image image = Toolkit.getDefaultToolkit().createImage(fileIcon);
+            Image scaleImage = image.getScaledInstance(weight, height, Image.SCALE_SMOOTH);
+            jFrame.setIconImage(scaleImage);
             //End_setIcon
         } catch (Exception e) {
            System.out.println("PNG null");

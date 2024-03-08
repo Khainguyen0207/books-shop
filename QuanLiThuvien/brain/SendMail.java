@@ -46,9 +46,9 @@ public class SendMail {
             "<html>\r\n" +
             "<body> \r\n" +
             "<h1>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!</h1>\r\n" +
-            "<p>" + SendMail.content() + "</p>" +
+            //"<p>" + SendMail.content() + "</p>" +
+            "<p> Mã xác thực của bạn là: " + ranNum + "\r\n" + "</p>" +
             "<img src=\"https://contechco.com.vn/images/products/2018/04/03/original/dich-vu-may-tinh_1522792397-copy-copy.jpg\" alt=\"fixbug\" style=\"width: 200px; height: 100px;\">" + 
-            "<p> Mã xác thực của bạn là: " + ranNum + "\r\n" +
             "</body>\r\n" + 
             "</html>", "text/html; charset=UTF-8");
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));

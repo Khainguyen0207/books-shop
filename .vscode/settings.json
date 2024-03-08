@@ -2,6 +2,11 @@
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
         "c:\\Users\\quocnguyen\\Downloads\\javax.mail.jar",
-        "c:\\Users\\quocnguyen\\Downloads\\activation-1.1.1.jar"
-    ]
+        "c:\\Users\\quocnguyen\\Downloads\\activation-1.1.1.jar",
+        "c:\\Users\\quocnguyen\\Downloads\\mysql-connector-java-8.0.28.jar"
+    ],
+    "files.encoding": "utf8",
+    "java.project.encoding": "ignore",
+    "files.autoGuessEncoding": true,
+    "terminal.integrated.detectLocale": "auto", 
 }

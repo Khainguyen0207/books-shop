@@ -30,6 +30,7 @@ public class AdminShopBook extends Admin {
     private static ArrayList<Integer> arrRomove = new ArrayList<>();
     public static void panelAdminShopBook() {
         long bd = System.currentTimeMillis();
+        nametable = "";
         panelCenterAdminShopBook.setName("panelCenterAdminShopBook");
         panelCenterAdminShopBook.setLayout(new BorderLayout());
         panelCenterAdminShopBook.add(panelButton(), BorderLayout.EAST);
@@ -554,7 +555,7 @@ public class AdminShopBook extends Admin {
     }
 
     @SuppressWarnings("unused")
-    //add item for JComboBox
+    //add item for JComboBox Chưa đc sài :()
     private static void updateArea(JTextField txt, JComboBox<Object> box) {
         String content = txt.getText();
         System.out.println(content);

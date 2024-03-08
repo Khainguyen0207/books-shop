@@ -2,9 +2,12 @@ package QuanLiThuvien.Forms.Login;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.*;
 
+import QuanLiThuvien.Models.UserModel;
 import QuanLiThuvien.UserAndPass.CsdlAccount;
 import QuanLiThuvien.brain.AllComponent;
 import QuanLiThuvien.brain.Csdl;
@@ -113,7 +116,7 @@ public class Register extends Form_Login {
         panelContentRegister.add(new JLabel(){
             {
                 setName("exisAccount");
-                setText("<html><u><i>Bạn đã có tài khoản?</i></u></html>");
+                setText("<html><p style='margin-bottom:10px;text-decoration: underline;font-weight: 700;'> Đăng nhập! </p></html>");
                 setHorizontalAlignment(CENTER);
                 setFont(new Font("", Font.BOLD, 15));
                 setCursor(new Cursor(12));
@@ -150,12 +153,16 @@ public class Register extends Form_Login {
             JOptionPane.showMessageDialog(null, ErrorList.errors.values().toArray(), "Thông báo", 0);
             ErrorList.errors.clear();
         } else {
-            CsdlAccount.writeFile(username+"/"+password+"/"+email+"/0");
+            UserModel userModel = new UserModel();
+            Map<String, String> register = new HashMap<>();
+            register.put("username", username);
+            register.put("password", password);
+            register.put("email", email);
+            userModel.create(register);
             Csdl.updateTime("User " + username +" created");
             CsdlAccount.numberUser++;
             JOptionPane.showMessageDialog(null, "Đăng kí thành công", "Thông báo", 0, new ImageIcon("QuanLiThuvien/Icon/TickSuccess.png"));
             resetForm(Login.setPanelLogin());
-
         }
     }
 
