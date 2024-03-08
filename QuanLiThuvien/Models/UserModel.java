@@ -23,11 +23,6 @@ public class UserModel extends Model {
         return 3;
     }
 
-    public static void main(String[] args) {
-        UserModel userModel = new UserModel();
-        System.out.println(userModel.getFillable().toString());
-    }
-
     public static Boolean checkData(String key, String value) {
         UserModel userModel = new UserModel();
         return userModel.checkDataExis(key, value);
