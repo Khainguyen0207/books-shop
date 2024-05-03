@@ -22,10 +22,8 @@ import javax.swing.table.*;
 import QuanLiThuvien.Forms.Login.ErrorList;
 import QuanLiThuvien.Models.UserModel;
 import QuanLiThuvien.brain.AllComponent;
-import QuanLiThuvien.brain.Csdl;
 import QuanLiThuvien.brain.FunctionQLTV;
 import QuanLiThuvien.brain.SetIcon;
-import QuanLiThuvien.thuvien.*;
 
 
 public class AdminShopBook extends Admin {
@@ -101,12 +99,6 @@ public class AdminShopBook extends Admin {
                     public void actionPerformed(ActionEvent e) {
                         arrRomove.clear();
                         int a = 0;
-                        for (tusach i : thuvien.tusachs) { 
-                            if (!checkExisCharacter(i.nameTS.toLowerCase(), txt.getText().toLowerCase().trim())) {
-                                setArrRemove(a);
-                            }
-                            a++;
-                        }
                         updatePanelHideInfomationSetting("panelHideInfomationSetting");
                     }
                 });
@@ -164,7 +156,7 @@ public class AdminShopBook extends Admin {
     }
 
     private static JTable tableSettingBookcase() {
-        JTable table = new JTable(Csdl.sotusach, 4);
+        JTable table = new JTable();
         table.setName("tableBookCase");
         String data[] = {"STT", "Name category", "Quantity", "Infomatin Books"};
         DefaultTableModel model = new DefaultTableModel(){
@@ -186,12 +178,7 @@ public class AdminShopBook extends Admin {
                 int column = e.getColumn();
                 String nameChange = table.getValueAt(rowChanged, column).toString().trim();
                 if (column == 1 && namelate != nameChange) {             
-                    if (!Csdl.checkNoExis(nameChange) || namelate == nameChange || nameChange.isEmpty()) {
-                        table.setValueAt(namelate, rowChanged, column);
-                    } else {
-                        System.out.println("Change: " + namelate + "->" + nameChange);
-                        updatePanelHideInfomationSetting("panelHideInfomationSetting");
-                    }
+
                 }
             }
         });
@@ -348,13 +335,6 @@ public class AdminShopBook extends Admin {
         panel.add(button);
     }
 
-    private static void addRowTT(DefaultTableModel model, String[] data) {
-        data[2] = "0";
-        for(int i = 1; i <= thuvien.tusachs.size(); i++) {
-            model.addRow(data);
-        }
-    }
-
     private static void addNameTsUpTable(DefaultTableModel model) {
         for (Map<String, String> data : UserModel.setDataForTable("categorys")) {
             String dataRow[] = {data.get("id"), data.get("name_category"), String.valueOf(UserModel.getCountProduct(Integer.parseInt(data.get("id")))), "EDIT"};
@@ -427,10 +407,6 @@ public class AdminShopBook extends Admin {
                     JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin", "Thông báo", JOptionPane.ERROR_MESSAGE);
                     continue;
 
-                } else if (!Csdl.checkNoExis(nameBook)) {
-                    JOptionPane.showMessageDialog(null, "Đã tồn tại tủ sách\n" + "Name BOOK: " + nameBook, "Thông báo", JOptionPane.ERROR_MESSAGE);
-                    continue;
-                    
                 }
 
                 //Thêm danh mục mới không trùng danh mục cũ
@@ -554,20 +530,6 @@ public class AdminShopBook extends Admin {
 
         } while (result == JOptionPane.OK_OPTION);
 
-    }
-
-    @SuppressWarnings("unused")
-    //add item for JComboBox Chưa đc sài :()
-    private static void updateArea(JTextField txt, JComboBox<Object> box) {
-        String content = txt.getText();
-        System.out.println(content);
-        box.removeAllItems();
-        for (tusach i : thuvien.tusachs) {
-            if (checkExisCharacter(i.nameTS.toLowerCase(), content.toLowerCase())) {
-                box.addItem(i.nameTS);
-            }
-        }
-        txt.setText(content);
     }
 
     private static Boolean checkExisCharacter(String nameTS, String text) {
@@ -733,12 +695,5 @@ public class AdminShopBook extends Admin {
                 }
             }
         } while (result == JOptionPane.OK_OPTION);
-    }
-
-    public static void change(String databook[], String nameBookSelect, String book) {
-        for (Info info : Csdl.getBook(nametable, book).infomations) {
-            Csdl.getBook(nametable, book).name=  nameBookSelect;
-            info.info = databook;
-        }
     }
 }

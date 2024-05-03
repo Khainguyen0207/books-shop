@@ -7,7 +7,6 @@ import javax.swing.*;
 
 import QuanLiThuvien.Forms.Login.Form_Login;
 import QuanLiThuvien.Forms.User.Form_User;
-import QuanLiThuvien.brain.Csdl;
 import QuanLiThuvien.brain.SetIcon;
 
 
@@ -24,7 +23,6 @@ public class Admin implements ActionListener  {
     public static void admin() {
         long bd = System.currentTimeMillis();
         frame.getContentPane().removeAll();
-        Csdl.updateData();
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         } catch (Exception e) {

@@ -13,11 +13,12 @@ public class DatabaseConnection {
             final String DATABASE_URL = "jdbc:mysql://localhost:3306/book_shop";
             final String USERNAME = "root";
             final String PASSWORD = "";
+
             this.connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD);
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
             } catch (ClassNotFoundException e) {
-                System.out.println(e.getMessage());
+                System.out.println("Error DatabaseConnection" + e.getMessage());
             }
 
             if (connection != null) {
@@ -35,13 +36,15 @@ public class DatabaseConnection {
                     String name = data.getString("name");
                     System.out.println("ID: " + id + ", Name: " + name);
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    System.out.println("Error DatabaseConnection" + e.getMessage());
                 }
             }
 
             data.close();
             connection.close();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            System.out.println("Loi: " + e.getMessage());
+        }
     }
 
     public ResultSet getData(Connection connection, String sql) throws SQLException { // Hàm viết truy vấn ly thông tin executeQuery

@@ -7,8 +7,7 @@ import java.util.Scanner;
 import javax.swing.*;
 
 import QuanLiThuvien.UserAndPass.CsdlAccount;
-import QuanLiThuvien.thuvien.thuvien;
-import QuanLiThuvien.thuvien.tusach;
+
 
 public class AdminQLKH extends Admin {
     public static void panelAdminQLKH() {
@@ -34,13 +33,9 @@ public class AdminQLKH extends Admin {
         JPanel panelInfomation = new JPanel();
         panelInfomation.setName("panelInfomation");
         panelInfomation.setBackground(panelCenterQLKH.getBackground());
-        panelInfomation.add(addLabel("Thành viên", CsdlAccount.numberUser , "./Icon/user.png"));
-        panelInfomation.add(addLabel("Danh mục", thuvien.tusachs.size() , "Icon/bookshelf.png"));
-        int numberBook = 0;
-        for (tusach string : thuvien.tusachs) {
-            numberBook += string.sachs.size();
-        }
-        panelInfomation.add(addLabel("Số lượng", numberBook, "Icon/books.png"));
+        panelInfomation.add(addLabel("Thành viên", 0 , "./Icon/user.png"));
+        panelInfomation.add(addLabel("Danh mục", 0 , "Icon/bookshelf.png"));
+        panelInfomation.add(addLabel("Số lượng", 0, "Icon/books.png"));
         return panelInfomation;
     }
     

@@ -51,7 +51,7 @@ public class Form_Login implements ActionListener {
     private static JLabel imageLogin() {
         JLabel label = new JLabel();
         label.setName("imageLogin");
-        label.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("C:\\Hoctap\\Workspace\\Languages\\Java\\books-shop\\QuanLiThuvien\\Icon\\background-login.png")));
+        label.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("Icon/background-login.png")));
         return label;
     }
 

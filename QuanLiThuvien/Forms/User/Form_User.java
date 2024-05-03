@@ -9,7 +9,6 @@ import javax.swing.*;
 
 import QuanLiThuvien.brain.SetIcon;
 import QuanLiThuvien.brain.TimeUpdateData;
-import com.sun.mail.imap.protocol.ID;
 
 public class Form_User {
     public static int ID;
