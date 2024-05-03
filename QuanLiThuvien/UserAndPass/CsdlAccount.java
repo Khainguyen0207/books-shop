@@ -7,7 +7,7 @@ import QuanLiThuvien.Models.UserModel;
 
 import java.util.Map;
 
-public class CsdlAccount extends Account {
+public class CsdlAccount {
     public static int numberUser = 0;
 
     public static boolean checkAccount(String user, String pass) {
