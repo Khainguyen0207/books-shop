@@ -42,9 +42,7 @@ public class DatabaseConnection {
 
             data.close();
             connection.close();
-        } catch (Exception e) {
-            System.out.println("Loi: " + e.getMessage());
-        }
+        } catch (Exception e) {}
     }
 
     public ResultSet getData(Connection connection, String sql) throws SQLException { // Hàm viết truy vấn ly thông tin executeQuery
