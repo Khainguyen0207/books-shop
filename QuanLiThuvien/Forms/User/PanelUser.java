@@ -7,16 +7,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URI;
 import java.util.*;
-import java.util.List;
 import java.util.Map.Entry;
 import javax.swing.*;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DocumentFilter;
+
 
 import QuanLiThuvien.Forms.Login.ErrorList;
 import QuanLiThuvien.Forms.Login.Form_Login;
-import QuanLiThuvien.Models.Model;
 import QuanLiThuvien.Models.UserModel;
 import QuanLiThuvien.brain.AllComponent;
 import QuanLiThuvien.brain.SendMail;
@@ -176,7 +172,7 @@ public class PanelUser extends Form_User {
         gbc.gridy++;
         formChangePassword.add(new JButton("Thay đổi"){
             {
-                setCursor(new Cursor(12));
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
                 setBorderPainted(false);
                 setFocusPainted(false);
                 setBackground(new Color(22, 255, 14, 1));
@@ -221,7 +217,7 @@ public class PanelUser extends Form_User {
         panelWestInfo.add(imgUser(), BorderLayout.NORTH);
         panelWestInfo.add(new JPanel(){
             {
-                setLayout(new BoxLayout(this, 1));
+                setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
                 setBackground(panelWestInfo.getBackground());
                 setName("labelwest");
                 add(new JLabel(){
@@ -241,13 +237,12 @@ public class PanelUser extends Form_User {
                             @Override
                             public void mouseEntered(MouseEvent e) {
                                 setText("<html><p style='margin:10px; border-bottom:solid 2px; padding-bottom: 2px;'>Đổi mật khẩu </p></html>");
-                                setCursor(new Cursor(12));
-                            }
+                                setCursor(new Cursor(Cursor.HAND_CURSOR));                            }
 
                             @Override
                             public void mouseExited(MouseEvent e) {
                                 setText("<html><p style='margin-top:10px;'>Đổi mật khẩu </p></html>");
-                                setCursor(new Cursor(0));
+                                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                             }
                         });
                     }
@@ -270,13 +265,12 @@ public class PanelUser extends Form_User {
                             @Override
                             public void mouseEntered(MouseEvent e) {
                                 setText("<html><p style='margin:10px; border-bottom:solid 2px; padding-bottom: 2px;'>Quên mật khẩu </p></html>");
-                                setCursor(new Cursor(12));
-                            }
+                                setCursor(new Cursor(Cursor.HAND_CURSOR));                            }
 
                             @Override
                             public void mouseExited(MouseEvent e) {
                                 setText("<html><p style='margin-top:10px;'>Quên mật khẩu </p></html>");
-                                setCursor(new Cursor(0));
+                                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                             }
                         });
                     }
@@ -298,13 +292,12 @@ public class PanelUser extends Form_User {
                             @Override
                             public void mouseEntered(MouseEvent e) {
                                 setText("<html><p style='margin:10px; border-bottom:solid 2px; padding-bottom: 2px;'>Thanh toán </p></html>");
-                                setCursor(new Cursor(12));
-                            }
+                                setCursor(new Cursor(Cursor.HAND_CURSOR));                            }
 
                             @Override
                             public void mouseExited(MouseEvent e) {
                                 setText("<html><p style='margin-top:10px;'>Thanh toán </p></html>");
-                                setCursor(new Cursor(0));
+                                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                             }
                         });
                     }
@@ -326,7 +319,7 @@ public class PanelUser extends Form_User {
                     addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent actionEvent) {
-                            int result = JOptionPane.showConfirmDialog(null, "Bạn muốn đăng xuất?", "Thông báo", 0 , 1);
+                            int result = JOptionPane.showConfirmDialog(null, "Bạn muốn đăng xuất?", "Thông báo", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
                             if (result == JOptionPane.YES_OPTION) {
                                 System.out.println("The application is exiting...");
                                 Form_Login.resetText();
@@ -404,8 +397,7 @@ public class PanelUser extends Form_User {
         gbc.gridx = 1;
         panel.add(new JButton(){
             {
-                setCursor(new Cursor(12));
-                setBorderPainted(false);
+                setCursor(new Cursor(Cursor.HAND_CURSOR));                setBorderPainted(false);
                 setFocusPainted(false);
                 setBackground(new Color(22, 255, 14, 1));
                 setFont(font);
@@ -527,8 +519,7 @@ public class PanelUser extends Form_User {
         gbc.gridy++;
         panel.add(new JButton("Xác nhận"){
             {
-                setCursor(new Cursor(12));
-                setBorderPainted(false);
+                setCursor(new Cursor(Cursor.HAND_CURSOR));                setBorderPainted(false);
                 setFocusPainted(false);
                 setBackground(new Color(22, 255, 14, 1));
                 setFont(font);
@@ -568,8 +559,7 @@ public class PanelUser extends Form_User {
         panel.add(new JButton("Đổi mật khẩu"){
             {
                 setName("ChangeForget");
-                setCursor(new Cursor(12));
-                setBorderPainted(false);
+                setCursor(new Cursor(Cursor.HAND_CURSOR));                setBorderPainted(false);
                 setFocusPainted(false);
                 setBackground(new Color(22, 255, 14, 1));
                 setFont(font);
@@ -1052,11 +1042,14 @@ public class PanelUser extends Form_User {
                     {
                         setFocusPainted(false);
                         setBorderPainted(false);
-                        setName("");
+                        setName("btnOder");
+                        setBackground(Color.GREEN);
                         setText("Đặt hàng");
+                        setCursor(new Cursor(Cursor.HAND_CURSOR));
                         addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent actionEvent) {
+                                JOptionPane.showMessageDialog(null, "Đã mua hàng vui lòng theo dõi tiến trình mua hàng trên ứng dụng");
                                 System.out.println("Đã mua hàng vui lòng theo dõi tiến trình mua hàng trên ứng dụng");
                             }
                         });
