@@ -909,7 +909,6 @@ public class PanelUser extends Form_User {
         //Cài đặt thông tin người dùng
         //Tương tác thông tin
         infoUser.add(setLabelInfoUser(map, dataInfo, key));
-        
         return infoUser;
     }
     
@@ -981,7 +980,7 @@ public class PanelUser extends Form_User {
     }
 
     private static String checkValueEmpty(String getValue) {
-        if (getValue==null) {
+        if (getValue == null) {
             return "Chưa cập nhật";
         }
         return getValue;
@@ -1117,9 +1116,7 @@ class eventButton implements Runnable{
             button.setText(i + "s");
             try {
                 Thread.sleep(1000);
-            } catch (Exception e) {
-
-            }
+            } catch (Exception e) {}
             button.setText("Gửi lại");
             button.setEnabled(true);
         }

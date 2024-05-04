@@ -38,7 +38,7 @@ public class PanelContent extends Form_User {
         panelProduct.add(sJScrollPane, BorderLayout.CENTER);
         panelProduct.setVisible(false);
         return panelProduct;
-    } 
+    }
 
     private static JPanel panelHideProduct() {
         JPanel center = new JPanel();
@@ -95,7 +95,7 @@ public class PanelContent extends Form_User {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 g.setColor(new Color(255, 235, 178)); // Đặt màu vẽ
-                g.fillRoundRect(10, 5, 300, 30, 5, 5); 
+                g.fillRoundRect(10, 5, 300, 30, 5, 5);
             }
         };
         panel.setBackground(color);
@@ -123,7 +123,7 @@ public class PanelContent extends Form_User {
         return panel;
     }
 
-    private static JPanel panelNotification() { //Panel thông báo 
+    private static JPanel panelNotification() { //Panel thông báo
         x = 0;
         JPanel panel = new JPanel() {
             @Override
@@ -177,7 +177,7 @@ public class PanelContent extends Form_User {
                 //setPreferredSize(new Dimension(button.getWidth(), button.getHeight()) );
                 setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
                 add(new JLabel("<html> " + nameProduct + "</html>"){
-                    {   
+                    {
                         setName("noidung");
                         setPreferredSize(new Dimension(180, 50));
                         setFont(new Font("Arial", Font.PLAIN, 14));
@@ -262,7 +262,7 @@ public class PanelContent extends Form_User {
         // Dimension size = panelCenter.getPreferredSize();
         // System.out.println("product: " + size);
         return panelCenter;
-    } 
+    }
 
     private static String getCoin(int number) {
         String num = Integer.valueOf(number).toString();
@@ -313,6 +313,6 @@ class setimg implements Runnable {
     public void run() {
         label.setIcon(new ImageIcon(SetIcon.imageProcess(anh, width, height)));
         //int activeCount = Thread.activeCount();
-        //System.out.println("Số lượng luồng đang chạy: " + activeCount); 
+        //System.out.println("Số lượng luồng đang chạy: " + activeCount);
     }
 }
